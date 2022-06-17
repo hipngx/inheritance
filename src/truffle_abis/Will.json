@@ -94,7 +94,7 @@
   "sourceMap": "55:2202:1:-;;;317:10;309:5;;:18;;;;;;;;;;;;;;;;;;435:9;425:7;:19;;;;521:5;511:8;;:15;;;;;;;;;;;;;;;;;;55:2202;;;;;;",
   "deployedSourceMap": "55:2202:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;55:2202:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;118:19;;;:::i;:::-;;;;;;;;;;;;;;;;;;;2113:141;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;2113:141:1;;;;;;;;;;;;;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;1454:185;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;1454:185:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;:::i;:::-;;76:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;;;;2012:93;;;:::i;:::-;;118:19;;;;:::o;2113:141::-;2161:12;2196:5;;;;;;;;;;;2189:12;;:5;:12;;;2186:37;;;2219:4;2212:11;;;;2186:37;2241:5;2234:12;;2113:141;;;;:::o;1454:185::-;1566:13;1585:6;1566:26;;39:1:-1;33:3;27:10;23:18;57:10;52:3;45:23;79:10;72:17;;0:93;1566:26:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;1625:6;1603:11;:19;1615:6;1603:19;;;;;;;;;;;;;;;:28;;;;1454:185;;:::o;76:20::-;;;;;;;;;;;;;:::o;2012:93::-;750:5;;;;;;;;;;;738:17;;:10;:17;;;730:26;;;;;;2074:4;2063:8;;:15;;;;;;;;;;;;;;;;;;2089:8;:6;:8::i;:::-;2012:93::o;1716:259::-;1047:4;1037:14;;:8;;;;;;;;;;;:14;;;1029:23;;;;;;1772:6;1779:1;1772:8;;1768:200;1783:13;:20;;;;1781:1;:22;1768:200;;;1824:13;1838:1;1824:16;;;;;;;;;;;;;;;;;;;;;;;;;:25;;:56;1850:11;:29;1862:13;1876:1;1862:16;;;;;;;;;;;;;;;;;;;;;;;;;1850:29;;;;;;;;;;;;;;;;1824:56;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;45:16;42:1;39;24:38;77:16;74:1;67:27;5:2;1824:56:1;1804:3;;;;;;;1768:200;;;;1716:259::o",
   "source": "//pragma solidity ^0.5.7;\r\npragma solidity ^0.5.17;\r\n\r\ncontract Will {\r\n    address public owner; //tạo biến\r\n    uint public fortune;\r\n    bool deceased;\r\n    //tạo constructor\r\n    // hàm khởi tạo\r\n    constructor() payable public { //payable cho phép F gửi và nhận ether(special)\r\n        owner = msg.sender;  // đại diện cho địa chỉ được gọi tới để thực thi hợp đồng\r\n        fortune = msg.value; //thông báo ta biết bao nhiêu ether được gửi\r\n        deceased =false; // granba vẫn chua die\r\n    }\r\n\r\n    //modifiers in solidity\r\n    //tạo modifier để người cos thể gọi tới hợp đồng này chỉ là chủ sở hữu\r\n    modifier onlyOwner{\r\n        require(msg.sender==owner); //bắt buộc message center phải bằng owner/ require như câu điều kiện\r\n        _;//bảo hàm tiếp tục, như hàm next();\r\n\r\n    }\r\n    //tạo modifier so that we only allocate funds if frieand's gramp deceased\r\n      modifier mustBeDeceased{\r\n        require(deceased==true);\r\n        _;\r\n    }\r\n\r\n    // tạo list để lưu trữ các địa chỉ của những người thừa kế ethereum\r\n    address payable[] familyWallets;// để danh sách này có thể payable \r\n        //map through inherritance\r\n    mapping(address=>uint) inheritance ;// khai báo biến inheritance dạng map/ key store value\r\n        //set inheritance cho mỗi địa chỉ address\r\n    function setInheritance(address payable wallet, uint amount) public {\r\n        // add wallet to family\r\n        familyWallets.push(wallet);\r\n        inheritance[wallet] = amount;\r\n    }\r\n    //pay each family member dựa vào cái danh sách ví đã lưu\r\n    function payout() private mustBeDeceased {\r\n        for(uint i=0;i<familyWallets.length;i++) {\r\n            familyWallets[i].transfer(inheritance[familyWallets[i]]);\r\n            //transfering the fund from contract address to recive address\r\n        }\r\n    }\r\n    //oracle simulated switch\r\n    function hasDeceased() public onlyOwner {\r\n        deceased = true;\r\n        payout();\r\n    }\r\n\r\n    function isOwner(address check) public returns (bool success) {\r\n        if(check==owner)\r\n        return true;\r\n        return false;\r\n    }\r\n}",
-  "sourcePath": "F:\\Dapp\\inheritance\\src\\contracts\\Will.sol",
+  "sourcePath": "D:\\Git repo\\inheritance-daap\\src\\contracts\\Will.sol",
   "ast": {
     "absolutePath": "project:/src/contracts/Will.sol",
     "exportedSymbols": {
@@ -3459,12 +3459,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xbF39E94F61b515Fb6660e883dbD41AAf2d9CE936",
-      "transactionHash": "0x4c41e5c18342e609af5e693276e87676f5a63fe383d3f7b716bbfa948974983c"
+      "address": "0x0E6bB7F90D3C1b2697b318cEb6d453Cf7BF0bFFd",
+      "transactionHash": "0x9a527c7dabcd5ce8d072691f55915eea436ee01cb7759356bd2af5586cfa7caa"
     }
   },
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-06-15T02:01:19.657Z",
+  "updatedAt": "2022-06-17T15:22:47.015Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
